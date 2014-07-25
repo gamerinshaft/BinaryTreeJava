@@ -18,7 +18,17 @@ class BinaryTree {
   }
 
   void insertTree(){
-    System.out.println("sounyuu");
+    try{
+      System.out.println("left");
+      BufferedReader input = new BufferedReader (new InputStreamReader (System.in));
+      Object left = input.readLine( );
+      System.out.println("right");
+      Object right = input.readLine( );
+      System.out.println(left +""+ right);
+      root = new BinaryTreeNode(root.data, null, null);
+    }catch(IOException e){
+        e.printStackTrace();
+    }
   }
 //----------------------------------------------------------------------
   // void insert(Object data) {

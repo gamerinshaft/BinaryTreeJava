@@ -1,11 +1,11 @@
 class BinaryTreeNode {
   Object data;
-  BinaryTreeNode left;
-  BinaryTreeNode right;
+  BinaryTreeNode up;
+  BinaryTreeNode down;
 
-  BinaryTreeNode( Object obj, BinaryTreeNode bl, BinaryTreeNode br ) {
+  BinaryTreeNode( Object obj, BinaryTreeNode u, BinaryTreeNode d ) {
     data = obj;
-    left = bl;
-    right = br;
+    up = u;
+    down = d;
   }
 }

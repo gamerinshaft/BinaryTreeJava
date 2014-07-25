@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 import java.lang.*;
 class BinaryTree {
-  BinaryTreeNode root, newTree;
+  BinaryTreeNode root;
 
   BinaryTree(Object data) {
     root = new BinaryTreeNode(data, null, null);
@@ -15,23 +15,30 @@ class BinaryTree {
   String showTree(){
     String s;
     s = root.data + "";
-    s += root.left.data + "";
-    s += root.right.data + "";
+    s += "\n├──────【" + root.up.data + "】";
+    s += "\n│";
+    s += "\n└──────【" + root.down.data + "】";
     return s;
   }
 
   void insertTree(){
     try{
+      //----------------------値を読込む-------------------------
       BufferedReader input = new BufferedReader (new InputStreamReader (System.in));
-      System.out.println("left");
-      Object left = input.readLine( );
-      System.out.println("right");
-      Object right = input.readLine( );
-      System.out.println(left +""+ right);
-      root = new BinaryTreeNode(root.data,
-                    new BinaryTreeNode(left, null, null),
-                    new BinaryTreeNode(right, null, null)
-                 );
+      System.out.println("up");
+      Object up = input.readLine( );
+      System.out.println("down");
+      Object down = input.readLine( );
+
+      //----------------------ノード生成-------------------------
+      BinaryTreeNode pastTree, newLeftTree, newRightTree;
+      pastTree = root;
+      newLeftTree = new BinaryTreeNode(up, null, null);
+      newRightTree = new BinaryTreeNode(down, null, null);
+      pastTree.up = newLeftTree;
+      pastTree.down = newRightTree;
+
+
     }catch(IOException e){
         e.printStackTrace();
     }

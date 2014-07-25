@@ -10,6 +10,16 @@ class BinaryTree {
   BinaryTree(Object data) {
     root = new BinaryTreeNode(data, null, null);
   }
+
+  String showTree(){
+    String s;
+    s = root.data + "";
+    return s;
+  }
+
+  void insertTree(){
+    System.out.println("sounyuu");
+  }
 //----------------------------------------------------------------------
   // void insert(Object data) {
   //   newTree = new Cell(data);
@@ -64,8 +74,10 @@ class BinaryTree {
           System.out.println("空白文字は含まないで下さい");
         }else if(value.equals("show")){
           System.out.println("treeを表示します");
+          System.out.println(tree.showTree());
         }else if(value.equals("add")){
           System.out.println("treeを追加します");
+          tree.insertTree();
         }
       }catch(IOException e){
         e.printStackTrace();

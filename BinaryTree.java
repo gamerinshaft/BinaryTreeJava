@@ -24,22 +24,24 @@ class BinaryTree {
   void insertTree(){
     BinaryTreeNode pastTree;
     pastTree = root;
-    if(pastTree.up == null){
-      insertUp(pastTree);
-    }
-    if(pastTree.down == null){
-      insertDown(pastTree);
-    }
+    insertUp(pastTree);
+    insertDown(pastTree);
   }
+
   void insertUp(BinaryTreeNode pastTree){
     BufferedReader input = new BufferedReader (new InputStreamReader (System.in));
     try{
-      BinaryTreeNode newUpTree;
-      System.out.println("parent:" + pastTree.data);
-      System.out.println("up");
-      Object up = input.readLine( );
-      newUpTree = new BinaryTreeNode(up, null, null);
-      pastTree.up = newUpTree;
+      if(pastTree.up == null){
+        BinaryTreeNode newUpTree;
+        System.out.println("parent:" + pastTree.data);
+        System.out.println("up");
+        Object up = input.readLine( );
+        newUpTree = new BinaryTreeNode(up, null, null);
+        pastTree.up = newUpTree;
+      }else{
+        insertUp(pastTree.up);
+        insertDown(pastTree.up);
+      }
     }catch(IOException e){
       e.printStackTrace();
     }
@@ -47,12 +49,17 @@ class BinaryTree {
   void insertDown(BinaryTreeNode pastTree){
     BufferedReader input = new BufferedReader (new InputStreamReader (System.in));
     try{
-      BinaryTreeNode newDownTree;
-      System.out.println("parent:" + pastTree.data);
-      System.out.println("down");
-      Object down = input.readLine( );
-      newDownTree = new BinaryTreeNode(down, null, null);
-      pastTree.down = newDownTree;
+      if(pastTree.down == null){
+        BinaryTreeNode newDownTree;
+        System.out.println("parent:" + pastTree.data);
+        System.out.println("down");
+        Object down = input.readLine( );
+        newDownTree = new BinaryTreeNode(down, null, null);
+        pastTree.down = newDownTree;
+      }else{
+        insertUp(pastTree.down);
+        insertDown(pastTree.down);
+      }
     }catch(IOException e){
       e.printStackTrace();
     }

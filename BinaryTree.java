@@ -11,21 +11,27 @@ class BinaryTree {
     root = new BinaryTreeNode(data, null, null);
   }
 
+
   String showTree(){
     String s;
     s = root.data + "";
+    s += root.left.data + "";
+    s += root.right.data + "";
     return s;
   }
 
   void insertTree(){
     try{
-      System.out.println("left");
       BufferedReader input = new BufferedReader (new InputStreamReader (System.in));
+      System.out.println("left");
       Object left = input.readLine( );
       System.out.println("right");
       Object right = input.readLine( );
       System.out.println(left +""+ right);
-      root = new BinaryTreeNode(root.data, null, null);
+      root = new BinaryTreeNode(root.data,
+                    new BinaryTreeNode(left, null, null),
+                    new BinaryTreeNode(right, null, null)
+                 );
     }catch(IOException e){
         e.printStackTrace();
     }
@@ -60,10 +66,7 @@ class BinaryTree {
   // }
 //----------------------------------------------------------------------
 
-  String printTree(){
-    String s = root.data + "";
-    return s;
-  }
+
 
   public static void main(String args[]) {
     boolean isContinue = true;

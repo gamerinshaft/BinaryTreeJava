@@ -11,13 +11,36 @@ class BinaryTree {
     root = new BinaryTreeNode(data, null, null);
   }
 
-  void printLn(){
-    System.out.println(root.data);
+  String printTree(){
+    String s = root.data + "";
+    return s;
   }
 
   public static void main(String args[]) {
+    boolean isContinue = true;
+    String value;
     BinaryTree tree = new BinaryTree(args[0]);
-    tree.printLn();
+
+    System.out.println("終了したい場合は end と入力して下さい。");
+
+    while(isContinue){
+      try{
+        BufferedReader input;
+        System.out.println("input:");
+        input = new BufferedReader (new InputStreamReader (System.in));
+        value = input.readLine( );
+        if(value.equals("end")){
+          isContinue = false;
+        }else if(value.equals("") || value.indexOf(" ") >= 0 || value.indexOf("　") >= 0){
+          System.out.println("空白文字は含まないで下さい");
+        }else{
+          // s.insert(value);
+          System.out.println(tree.printTree());
+        }
+      }catch(IOException e){
+        e.printStackTrace();
+      }
+    }
   }
 
 }

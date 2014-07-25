@@ -31,14 +31,16 @@ class BinaryTree {
       Object down = input.readLine( );
 
       //----------------------ノード生成-------------------------
-      BinaryTreeNode pastTree, newLeftTree, newRightTree;
+      BinaryTreeNode pastTree, newUpTree, newDownTree;
       pastTree = root;
-      newLeftTree = new BinaryTreeNode(up, null, null);
-      newRightTree = new BinaryTreeNode(down, null, null);
-      pastTree.up = newLeftTree;
-      pastTree.down = newRightTree;
-
-
+      if(pastTree.up == null){
+        newUpTree = new BinaryTreeNode(up, null, null);
+        pastTree.up = newUpTree;
+      }
+      if(pastTree.down == null){
+        newDownTree = new BinaryTreeNode(down, null, null);
+        pastTree.down = newDownTree;
+      }
     }catch(IOException e){
         e.printStackTrace();
     }

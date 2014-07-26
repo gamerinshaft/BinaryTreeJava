@@ -109,6 +109,9 @@ class BinaryTree {
     }
   }
 //---------------------------------[DeleteTree]-------------------------------------------
+  void deleteNode(){
+    System.out.println("削除するよおお");
+  }
 //------------------------------------[main]----------------------------------------------
 
   public static void main(String args[]) {
@@ -146,6 +149,7 @@ class BinaryTree {
           System.out.println("-------------------------------------------------------------------");
           System.out.println(tree.showTree());
           System.out.println("-------------------------------------------------------------------");
+          tree.deleteNode();
         }
       }catch(IOException e){
         e.printStackTrace();

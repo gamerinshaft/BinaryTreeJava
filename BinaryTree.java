@@ -178,33 +178,26 @@ class BinaryTree {
       BufferedReader input;
       input = new BufferedReader (new InputStreamReader (System.in));
       String value = input.readLine( );
-      String[] hoge = value.split("/");
+      String[] valueAry = value.split("/");
+      String bread = "";
       BinaryTreeNode tree = root;
       BinaryTreeNode pareTree = root;
       String state = "";
-      if(hoge.length == 1){
-        System.out.println("rootは削除できません。");
-        System.out.println("-------------------------------------------------------------------");
-      }else{
-        for(int i = 1; i < hoge.length; i++){
-          if(tree.up.data.equals(hoge[i])){
+        for(int i = 1; i < valueAry.length; i++){
+          if(tree.up.data.equals(valueAry[i])){
             pareTree = tree;
             tree = tree.up;
             state = "up";
-          }else if(tree.down.data.equals(hoge[i])){
+          }else if(tree.down.data.equals(valueAry[i])){
             pareTree = tree;
             tree = tree.down;
             state = "down";
           }
+          bread += pareTree.data + " > ";
         }
-        if(state == "down"){
-          pareTree.down = null;
-        }else if(state == "up"){
-          pareTree.up = null;
-        }
-        System.out.println("削除しました。");
-        System.out.println("-------------------------------------------------------------------");
-      }
+
+        insertUp(bread, tree);
+        insertDown(bread, tree);
     }catch(IOException e){
       e.printStackTrace();
     }
@@ -250,7 +243,7 @@ class BinaryTree {
           tree.deleteNode();
         }else if(value.equals("ADD")){
           System.out.println("-------------------------------------------------------------------");
-          System.out.println("ADDするよ");
+          tree.addNodeDirect();
           System.out.println("-------------------------------------------------------------------");
         }
       }catch(IOException e){

@@ -173,7 +173,7 @@ class BinaryTree {
 
 //--------------------------------------[ADD]---------------------------------------------
   void addNodeDirect(){
-    System.out.println("追加したいノードの位置をrootから / で区切って入力してください");
+    System.out.println("ノードの位置をrootから / で区切って指定すると、そのノード以下の各末端にノードを追加する事が出来ます。");
     try{
       BufferedReader input;
       input = new BufferedReader (new InputStreamReader (System.in));
@@ -203,6 +203,12 @@ class BinaryTree {
     }
   }
 
+//--------------------------------------[cp]---------------------------------------------
+  void copyNode(){
+    System.out.println("owaaaaaaaaaaaa");
+  }
+
+
 //------------------------------------[main]----------------------------------------------
 
   public static void main(String args[]) {
@@ -210,9 +216,10 @@ class BinaryTree {
     String value;
     BinaryTree tree = new BinaryTree(args[0]);
     System.out.println("-------------------------------------------------------------------");
-    System.out.println("show   : ツリーを表示");
     System.out.println("add    : ノード追加モード");
-    System.out.println("ADD : 直接追加モード");
+    System.out.println("ADD    : 直接追加モード");
+    System.out.println("show   : ツリーを表示");
+    System.out.println("cp     : そのノード以下のブランチをコピー");
     System.out.println("del    : そのノード以下のブランチを削除");
     System.out.println("end    : プログラムを終了");
     System.out.println("※add画面で値を入力せずにEnterを押すと、ブランチはそこでとまります。");
@@ -221,7 +228,7 @@ class BinaryTree {
     while(isContinue){
       try{
         BufferedReader input;
-        System.out.println("option(add/ADD/show/del/end)");
+        System.out.println("option(add/ADD/show/cp/del/end)");
         input = new BufferedReader (new InputStreamReader (System.in));
         value = input.readLine( );
         if(value.equals("end")){
@@ -244,6 +251,10 @@ class BinaryTree {
         }else if(value.equals("ADD")){
           System.out.println("-------------------------------------------------------------------");
           tree.addNodeDirect();
+          System.out.println("-------------------------------------------------------------------");
+        }else if(value.equals("cp")){
+          System.out.println("-------------------------------------------------------------------");
+          tree.copyNode();
           System.out.println("-------------------------------------------------------------------");
         }
       }catch(IOException e){

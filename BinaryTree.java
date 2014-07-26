@@ -12,9 +12,10 @@ class BinaryTree {
     root = new BinaryTreeNode(data, null, null);
   }
 
+//---------------------------[showTree]------------------------------------------
 
   String showTree(){
-    map = "" + root.data;
+    map = root.data + "(root)";
     mappingTree("",0,root);
     return map;
   }
@@ -59,6 +60,7 @@ class BinaryTree {
       map += "└──────" + tree.data;
     }
   }
+//--------------------------[insertTree]--------------------------------------
 
   void insertTree(){
     BinaryTreeNode pastTree;
@@ -106,6 +108,8 @@ class BinaryTree {
       e.printStackTrace();
     }
   }
+//---------------------------------[DeleteTree]-------------------------------------------
+//------------------------------------[main]----------------------------------------------
 
   public static void main(String args[]) {
     boolean isContinue = true;
@@ -114,6 +118,7 @@ class BinaryTree {
     System.out.println("-------------------------------------------------------------------");
     System.out.println("show : ツリーを表示");
     System.out.println("add  : ノード追加モード");
+    System.out.println("del  : そのノード以下のブランチを削除");
     System.out.println("end  : プログラムを終了");
     System.out.println("※add画面で値を入力せずにEnterを押すと、ブランチはそこでとまります。");
     System.out.println("-------------------------------------------------------------------");
@@ -121,7 +126,7 @@ class BinaryTree {
     while(isContinue){
       try{
         BufferedReader input;
-        System.out.println("option(add/show/end)");
+        System.out.println("option(add/show/del/end)");
         input = new BufferedReader (new InputStreamReader (System.in));
         value = input.readLine( );
         if(value.equals("end")){
@@ -136,6 +141,11 @@ class BinaryTree {
         }else if(value.equals("add")){
           System.out.println("treeを追加します");
           tree.insertTree();
+        }else if(value.equals("del")){
+          System.out.println("削除するノードをrootから / で区切って入力してください");
+          System.out.println("-------------------------------------------------------------------");
+          System.out.println(tree.showTree());
+          System.out.println("-------------------------------------------------------------------");
         }
       }catch(IOException e){
         e.printStackTrace();

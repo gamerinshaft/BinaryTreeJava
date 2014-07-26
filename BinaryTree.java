@@ -86,6 +86,7 @@ class BinaryTree {
       e.printStackTrace();
     }
   }
+
   void insertDown(String bread, BinaryTreeNode pastTree){
     BufferedReader input = new BufferedReader (new InputStreamReader (System.in));
     try{

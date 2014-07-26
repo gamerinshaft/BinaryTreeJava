@@ -139,6 +139,45 @@ class BinaryTree {
       BufferedReader input;
       input = new BufferedReader (new InputStreamReader (System.in));
       String value = input.readLine( );
+      String[] valueAry = value.split("/");
+      BinaryTreeNode tree = root;
+      BinaryTreeNode pareTree = root;
+      String state = "";
+      if(valueAry.length == 1){
+        System.out.println("rootは削除できません。");
+        System.out.println("-------------------------------------------------------------------");
+      }else{
+        for(int i = 1; i < valueAry.length; i++){
+          if(tree.up.data.equals(valueAry[i])){
+            pareTree = tree;
+            tree = tree.up;
+            state = "up";
+          }else if(tree.down.data.equals(valueAry[i])){
+            pareTree = tree;
+            tree = tree.down;
+            state = "down";
+          }
+        }
+        if(state == "down"){
+          pareTree.down = null;
+        }else if(state == "up"){
+          pareTree.up = null;
+        }
+        System.out.println("削除しました。");
+        System.out.println("-------------------------------------------------------------------");
+      }
+    }catch(IOException e){
+      e.printStackTrace();
+    }
+  }
+
+//--------------------------------------[ADD]---------------------------------------------
+  void addNodeDirect(){
+    System.out.println("追加したいノードの位置をrootから / で区切って入力してください");
+    try{
+      BufferedReader input;
+      input = new BufferedReader (new InputStreamReader (System.in));
+      String value = input.readLine( );
       String[] hoge = value.split("/");
       BinaryTreeNode tree = root;
       BinaryTreeNode pareTree = root;
@@ -178,17 +217,18 @@ class BinaryTree {
     String value;
     BinaryTree tree = new BinaryTree(args[0]);
     System.out.println("-------------------------------------------------------------------");
-    System.out.println("show : ツリーを表示");
-    System.out.println("add  : ノード追加モード");
-    System.out.println("del  : そのノード以下のブランチを削除");
-    System.out.println("end  : プログラムを終了");
+    System.out.println("show   : ツリーを表示");
+    System.out.println("add    : ノード追加モード");
+    System.out.println("ADD : 直接追加モード");
+    System.out.println("del    : そのノード以下のブランチを削除");
+    System.out.println("end    : プログラムを終了");
     System.out.println("※add画面で値を入力せずにEnterを押すと、ブランチはそこでとまります。");
     System.out.println("-------------------------------------------------------------------");
 
     while(isContinue){
       try{
         BufferedReader input;
-        System.out.println("option(add/show/del/end)");
+        System.out.println("option(add/ADD/show/del/end)");
         input = new BufferedReader (new InputStreamReader (System.in));
         value = input.readLine( );
         if(value.equals("end")){
@@ -208,6 +248,10 @@ class BinaryTree {
           System.out.println(tree.showTree());
           System.out.println("-------------------------------------------------------------------");
           tree.deleteNode();
+        }else if(value.equals("ADD")){
+          System.out.println("-------------------------------------------------------------------");
+          System.out.println("ADDするよ");
+          System.out.println("-------------------------------------------------------------------");
         }
       }catch(IOException e){
         e.printStackTrace();

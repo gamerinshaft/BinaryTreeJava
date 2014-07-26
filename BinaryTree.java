@@ -74,11 +74,23 @@ class BinaryTree {
     try{
       if(pastTree.up == null || pastTree.up.data.equals("")){
         BinaryTreeNode newUpTree;
-        System.out.println("parent:" + bread + pastTree.data);
-        System.out.println("up");
-        Object up = input.readLine( );
-        newUpTree = new BinaryTreeNode(up, null, null);
-        pastTree.up = newUpTree;
+        boolean isContinue = true;
+        while(isContinue){
+          System.out.println("parent:" + bread + pastTree.data);
+          System.out.println("up");
+          Object up = input.readLine( );
+          if(!up.equals("")){
+            if(pastTree.down != null && up.equals(pastTree.down.data + "")){
+              System.out.println("もう一方と同じ値は入力できません");
+            }else{
+              isContinue = false;
+            }
+          }else{
+            isContinue = false;
+          }
+          newUpTree = new BinaryTreeNode(up, null, null);
+          pastTree.up = newUpTree;
+        }
       }else{
         bread += pastTree.data + " > ";
         insertUp(bread, pastTree.up);
@@ -94,11 +106,23 @@ class BinaryTree {
     try{
       if(pastTree.down == null || pastTree.down.data.equals("")){
         BinaryTreeNode newDownTree;
-        System.out.println("parent:" + bread + pastTree.data);
-        System.out.println("down");
-        Object down = input.readLine( );
-        newDownTree = new BinaryTreeNode(down, null, null);
-        pastTree.down = newDownTree;
+        boolean isContinue = true;
+        while(isContinue){
+          System.out.println("parent:" + bread + pastTree.data);
+          System.out.println("down");
+          Object down = input.readLine( );
+          if(!down.equals("")){
+            if(pastTree.up != null && down.equals(pastTree.up.data + "")){
+              System.out.println("もう一方と同じ値は入力できません");
+            }else{
+              isContinue = false;
+            }
+          }else{
+            isContinue = false;
+          }
+          newDownTree = new BinaryTreeNode(down, null, null);
+          pastTree.down = newDownTree;
+        }
       }else{
         bread += pastTree.data + " > ";
         insertUp(bread, pastTree.down);
@@ -110,7 +134,40 @@ class BinaryTree {
   }
 //---------------------------------[DeleteTree]-------------------------------------------
   void deleteNode(){
-    System.out.println("削除するよおお");
+    System.out.println("削除するノードをrootから / で区切って入力してください");
+    try{
+      BufferedReader input;
+      input = new BufferedReader (new InputStreamReader (System.in));
+      String value = input.readLine( );
+      String[] hoge = value.split("/");
+      System.out.println(hoge.length);
+      BinaryTreeNode tree = root;
+      BinaryTreeNode pareTree = root;
+      String state = "";
+      for(int i = 1; i < hoge.length; i++){
+        if(tree.up.data.equals(hoge[i])){
+          pareTree = tree;
+          tree = tree.up;
+          state = "up";
+        }else if(tree.down.data.equals(hoge[i])){
+          pareTree = tree;
+          tree = tree.down;
+          state = "down";
+        }
+      }
+      if(state == "down"){
+        pareTree.down = null;
+      }else if(state == "up"){
+        pareTree.up = null;
+      }
+
+    }catch(IOException e){
+      e.printStackTrace();
+    }
+  }
+
+  void deleteNodeTrace(BinaryTreeNode tree){
+      System.out.println(root.data);
   }
 //------------------------------------[main]----------------------------------------------
 
@@ -145,7 +202,6 @@ class BinaryTree {
           System.out.println("treeを追加します");
           tree.insertTree();
         }else if(value.equals("del")){
-          System.out.println("削除するノードをrootから / で区切って入力してください");
           System.out.println("-------------------------------------------------------------------");
           System.out.println(tree.showTree());
           System.out.println("-------------------------------------------------------------------");

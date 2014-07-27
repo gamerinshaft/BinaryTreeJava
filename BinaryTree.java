@@ -12,22 +12,22 @@ class BinaryTree {
     root = new BinaryTreeNode(data, null, null);
   }
 
-//---------------------------[showTree]------------------------------------------
+//---------------------------[showPlaneTree]------------------------------------------
 
-  String showTree(){
+  String showPlaneTree(){
     map = root.data + "(root)";
-    mappingTree("",0,root);
+    mappingPlaneTree("",0,root);
     return map;
   }
 
-  void mappingTree(String route, int count, BinaryTreeNode tree){
+  void mappingPlaneTree(String route, int count, BinaryTreeNode tree){
     if(tree.up !=null){
       mappingTreeUp(route,count,tree.up);
-      mappingTree(route + "1",count + 1, tree.up);
+      mappingPlaneTree(route + "1",count + 1, tree.up);
     }
     if(tree.down !=null){
       mappingTreeDown(route,count,tree.down);
-      mappingTree(route + "0",count + 1, tree.down);
+      mappingPlaneTree(route + "0",count + 1, tree.down);
     }
   }
 
@@ -368,6 +368,85 @@ class BinaryTree {
     }
   }
 
+//------------------------------------[save]----------------------------------------------
+  void saveData(){
+    try{
+      System.out.println("保存する形式を data か　plane かから選んで下さい。");
+      BufferedReader input;
+      input = new BufferedReader (new InputStreamReader (System.in));
+      String value = input.readLine( );
+      String data;
+      if(value.equals("data")){
+        data = showDataTree();
+      }else{
+        data = showPlaneTree();
+      }
+
+
+      System.out.println("既に存在するファイルを保存先に指定して下さい。");
+      value = input.readLine( );
+      File file = new File(value);
+
+      if (checkBeforeWritefile(file)){
+        PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(file)));
+        pw.println(data);
+        pw.close();
+        System.out.println("保存しました。");
+        System.out.println("-------------------------------------------------------------------");
+      }else{
+        System.out.println("ファイルに書き込めません");
+      }
+    }catch(IOException e){
+      System.out.println(e);
+    }
+  }
+
+  private static boolean checkBeforeWritefile(File file){
+    if (file.exists()){
+      if (file.isFile() && file.canWrite()){
+        return true;
+      }
+    }
+
+    return false;
+  }
+//------------------------------------[Data]----------------------------------------------
+  String showDataTree(){
+    map = root.data + "";
+    mappingDataTree("",0,root);
+    return map;
+  }
+
+  void mappingDataTree(String route, int count, BinaryTreeNode tree){
+    if(tree.up !=null){
+      mappingDataTreeUp(route,count,tree.up);
+      mappingDataTree(route + "1",count + 1, tree.up);
+    }
+    if(tree.down !=null){
+      mappingDataTreeDown(route,count,tree.down);
+      mappingDataTree(route + "0",count + 1, tree.down);
+    }
+  }
+
+  void mappingDataTreeUp(String route, int count, BinaryTreeNode tree){
+    if(!tree.data.equals("")){
+      map += "\n";
+      for(int i = 0;i< count;i++){
+        map += "  ";
+      }
+      map += "- " + tree.data;
+    }
+  }
+
+  void mappingDataTreeDown(String route, int count, BinaryTreeNode tree){
+    if(!tree.data.equals("")){
+      map += "\n";
+      for(int i = 0; i < count; i++){
+        map += "  ";
+      }
+      map += "\\ " + tree.data;
+    }
+  }
 //------------------------------------[main]----------------------------------------------
 
   public static void main(String args[]) {
@@ -381,6 +460,7 @@ class BinaryTree {
     System.out.println("show   : ツリーを表示");
     System.out.println("cp     : そのノード以下のブランチをコピー");
     System.out.println("del    : そのノード以下のブランチを削除");
+    System.out.println("save   : プログラムをファイルに書き出し");
     System.out.println("end    : プログラムを終了");
     System.out.println("※add画面で値を入力せずにEnterを押すと、ブランチはそこでとまります。");
     System.out.println("-------------------------------------------------------------------");
@@ -388,7 +468,7 @@ class BinaryTree {
     while(isContinue){
       try{
         BufferedReader input;
-        System.out.println("option(add/ADD/rename/show/cp/del/end)");
+        System.out.println("option(add/ADD/rename/show/cp/del/save/end)");
         input = new BufferedReader (new InputStreamReader (System.in));
         value = input.readLine( );
         if(value.equals("end")){
@@ -398,14 +478,14 @@ class BinaryTree {
         }else if(value.equals("show")){
           System.out.println("treeを表示します");
           System.out.println("-------------------------------------------------------------------");
-          System.out.println(tree.showTree());
+          System.out.println(tree.showPlaneTree());
           System.out.println("-------------------------------------------------------------------");
         }else if(value.equals("add")){
           System.out.println("treeを追加します");
           tree.insertTree();
         }else if(value.equals("del")){
           System.out.println("-------------------------------------------------------------------");
-          System.out.println(tree.showTree());
+          System.out.println(tree.showPlaneTree());
           System.out.println("-------------------------------------------------------------------");
           tree.deleteNode();
         }else if(value.equals("ADD")){
@@ -414,14 +494,19 @@ class BinaryTree {
           System.out.println("-------------------------------------------------------------------");
         }else if(value.equals("cp")){
           System.out.println("-------------------------------------------------------------------");
-          System.out.println(tree.showTree());
+          System.out.println(tree.showPlaneTree());
           System.out.println("-------------------------------------------------------------------");
           tree.copyNode();
         }else if(value.equals("rename")){
           System.out.println("-------------------------------------------------------------------");
-          System.out.println(tree.showTree());
+          System.out.println(tree.showPlaneTree());
           System.out.println("-------------------------------------------------------------------");
           tree.renameNode();
+        }else if(value.equals("save")){
+          System.out.println("-------------------------------------------------------------------");
+          System.out.println(tree.showPlaneTree());
+          System.out.println("-------------------------------------------------------------------");
+          tree.saveData();
         }
       }catch(IOException e){
         e.printStackTrace();

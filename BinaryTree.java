@@ -26,7 +26,6 @@ class BinaryTree {
       mappingTree(route + "1",count + 1, tree.up);
     }
     if(tree.down !=null){
-      System.out.println("sita");
       mappingTreeDown(route,count,tree.down);
       mappingTree(route + "0",count + 1, tree.down);
     }

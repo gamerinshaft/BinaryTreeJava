@@ -317,6 +317,57 @@ class BinaryTree {
   }
 
 
+//-----------------------------------[rename]-------------------------------------------
+  void renameNode(){
+    System.out.println("ノードの位置をrootから / で区切って指定すると、そのノードのデータを変更する事が出来ます。");
+    try{
+      BufferedReader input;
+      input = new BufferedReader (new InputStreamReader (System.in));
+      String value = input.readLine( );
+      String[] valueAry = value.split("/");
+      String state = "";
+      BinaryTreeNode tree = root;
+      BinaryTreeNode pareTree = root;
+      for(int i = 1; i < valueAry.length; i++){
+        if(tree.up.data.equals(valueAry[i])){
+          pareTree = tree;
+          tree = tree.up;
+          state = "up";
+        }else if(tree.down.data.equals(valueAry[i])){
+          pareTree = tree;
+          tree = tree.down;
+          state = "down";
+        }
+      }
+
+      System.out.println(tree.data + "を何に書き換えますか？");
+      value = input.readLine( );
+      if(tree == pareTree){
+         tree.data = value;
+      }else{
+        if(state.equals("up")){
+          if(pareTree.down.data.equals(value)){
+            System.out.println("もう一方と同じ値にはできません");
+          }else{
+            tree.data = value;
+            System.out.println("書き換えました");
+          }
+        }else if(state.equals("down")){
+          if(pareTree.up.data.equals(value)){
+            System.out.println("もう一方と同じ値にはできません");
+          }else{
+            tree.data = value;
+            System.out.println("書き換えました");
+          }
+        }
+      }
+
+
+    }catch(IOException e){
+      e.printStackTrace();
+    }
+  }
+
 //------------------------------------[main]----------------------------------------------
 
   public static void main(String args[]) {
@@ -326,6 +377,7 @@ class BinaryTree {
     System.out.println("-------------------------------------------------------------------");
     System.out.println("add    : ノード追加モード");
     System.out.println("ADD    : 直接追加モード");
+    System.out.println("rename : 指定したノードのデータを変更");
     System.out.println("show   : ツリーを表示");
     System.out.println("cp     : そのノード以下のブランチをコピー");
     System.out.println("del    : そのノード以下のブランチを削除");
@@ -336,7 +388,7 @@ class BinaryTree {
     while(isContinue){
       try{
         BufferedReader input;
-        System.out.println("option(add/ADD/show/cp/del/end)");
+        System.out.println("option(add/ADD/rename/show/cp/del/end)");
         input = new BufferedReader (new InputStreamReader (System.in));
         value = input.readLine( );
         if(value.equals("end")){
@@ -365,6 +417,11 @@ class BinaryTree {
           System.out.println(tree.showTree());
           System.out.println("-------------------------------------------------------------------");
           tree.copyNode();
+        }else if(value.equals("rename")){
+          System.out.println("-------------------------------------------------------------------");
+          System.out.println(tree.showTree());
+          System.out.println("-------------------------------------------------------------------");
+          tree.renameNode();
         }
       }catch(IOException e){
         e.printStackTrace();

@@ -26,6 +26,7 @@ class BinaryTree {
       mappingTree(route + "1",count + 1, tree.up);
     }
     if(tree.down !=null){
+      System.out.println("sita");
       mappingTreeDown(route,count,tree.down);
       mappingTree(route + "0",count + 1, tree.down);
     }
@@ -183,21 +184,20 @@ class BinaryTree {
       BinaryTreeNode tree = root;
       BinaryTreeNode pareTree = root;
       String state = "";
-        for(int i = 1; i < valueAry.length; i++){
-          if(tree.up.data.equals(valueAry[i])){
-            pareTree = tree;
-            tree = tree.up;
-            state = "up";
-          }else if(tree.down.data.equals(valueAry[i])){
-            pareTree = tree;
-            tree = tree.down;
-            state = "down";
-          }
-          bread += pareTree.data + " > ";
+      for(int i = 1; i < valueAry.length; i++){
+        if(tree.up.data.equals(valueAry[i])){
+          pareTree = tree;
+          tree = tree.up;
+          state = "up";
+        }else if(tree.down.data.equals(valueAry[i])){
+          pareTree = tree;
+          tree = tree.down;
+          state = "down";
         }
-
-        insertUp(bread, tree);
-        insertDown(bread, tree);
+        bread += pareTree.data + " > ";
+      }
+      insertUp(bread, tree);
+      insertDown(bread, tree);
     }catch(IOException e){
       e.printStackTrace();
     }
@@ -205,7 +205,116 @@ class BinaryTree {
 
 //--------------------------------------[cp]---------------------------------------------
   void copyNode(){
-    System.out.println("owaaaaaaaaaaaa");
+    System.out.println("コピーしたいノードの位置をrootから / で区切って指定して下さい。");
+    try{
+      BufferedReader input;
+      input = new BufferedReader (new InputStreamReader (System.in));
+      String value1 = input.readLine( );
+      String[] valueAry1 = value1.split("/");
+      String oribread = "";
+      String cpbread = "";
+      BinaryTreeNode originTree = root;
+      BinaryTreeNode copyTree = root;
+      String state = "";
+
+      for(int i = 1; i < valueAry1.length; i++){
+        if(originTree.up.data.equals(valueAry1[i])){
+          originTree = originTree.up;
+        }else if(originTree.down.data.equals(valueAry1[i])){
+          originTree = originTree.down;
+        }
+      }
+
+      System.out.println("コピーノード先の位置をrootから / で区切って指定して下さい。");
+      String value2 = input.readLine( );
+      String[] valueAry2 = value2.split("/");
+      System.out.println("上につけたいなら up 下につけたいなら down を入力して下さい");
+      state = input.readLine( );
+
+      for(int i = 1; i < valueAry2.length; i++){
+        System.out.println(valueAry2[i]);
+      }
+      for(int i = 1; i < valueAry2.length; i++){
+        System.out.println(i + "回目");
+        if(copyTree.up != null){
+          if(copyTree.up.data.equals(valueAry2[i])){
+            copyTree = copyTree.up;
+          }
+        }
+        if(copyTree.down != null){
+          if(copyTree.down.data.equals(valueAry2[i])){
+            copyTree = copyTree.down;
+          }
+        }
+      }
+
+      if(state.equals("up")){
+        if(copyTree.down != null){
+          if(!originTree.data.equals(copyTree.down.data)){
+            copyTree.up = new BinaryTreeNode("dummy",null,null);
+            copyTreeUp(copyTree.up, originTree);
+            copyTree.up = copyTree.up.up;
+          }else{
+           System.out.println("コピー元の値がコピー先のもう一方のノードと同じ値です。");
+          }
+        }else{
+          copyTree.up = new BinaryTreeNode("dummy",null,null);
+          copyTreeUp(copyTree.up, originTree);
+          copyTree.up = copyTree.up.up;
+        }
+      }else if(state.equals("down")){
+        if(copyTree.up != null){
+          if(!originTree.data.equals(copyTree.up.data)){
+            copyTree.down = new BinaryTreeNode("dummy",null,null);
+            copyTreeDown(copyTree.down, originTree);
+            copyTree.down = copyTree.down.down;
+          }else{
+            System.out.println("コピー元の値がコピー先のもう一方のノードと同じ値です。");
+          }
+        }else{
+          copyTree.down = new BinaryTreeNode("dummy",null,null);
+          copyTreeDown(copyTree.down, originTree);
+          copyTree.down = copyTree.down.down;
+        }
+      }else{
+        System.out.println("入力された文字が up, down ではないです");
+      }
+
+    }catch(IOException e){
+      e.printStackTrace();
+    }
+  }
+
+  void copyTreeUp(BinaryTreeNode copyTree, BinaryTreeNode originTree){
+    copyTree.up = new BinaryTreeNode(originTree.data, null, null);
+    if(originTree.up != null){
+      if(originTree.up.data.equals("dummy")){
+      }else{
+        copyTreeUp(copyTree.up, originTree.up);
+      }
+    }
+    if(originTree.down != null){
+      if(originTree.down.data.equals("dummy")){
+      }else{
+        copyTreeDown(copyTree.up, originTree.down);
+      }
+    }
+  }
+
+  void copyTreeDown(BinaryTreeNode copyTree, BinaryTreeNode originTree){
+    copyTree.down = new BinaryTreeNode(originTree.data, null, null);
+    if(originTree.up != null){
+      if(originTree.up.data.equals("dummy")){
+      }else{
+        copyTreeUp(copyTree.down, originTree.up);
+      }
+    }
+    if(originTree.down != null){
+      if(originTree.down.data.equals("dummy")){
+      }else{
+        copyTreeDown(copyTree.down, originTree.down);
+      }
+    }
   }
 
 
@@ -254,8 +363,9 @@ class BinaryTree {
           System.out.println("-------------------------------------------------------------------");
         }else if(value.equals("cp")){
           System.out.println("-------------------------------------------------------------------");
-          tree.copyNode();
+          System.out.println(tree.showTree());
           System.out.println("-------------------------------------------------------------------");
+          tree.copyNode();
         }
       }catch(IOException e){
         e.printStackTrace();

@@ -412,41 +412,107 @@ class BinaryTree {
   }
 //------------------------------------[Data]----------------------------------------------
   String showDataTree(){
-    map = root.data + "";
+    map = "" + root.data;
     mappingDataTree("",0,root);
     return map;
   }
 
   void mappingDataTree(String route, int count, BinaryTreeNode tree){
+    String memo = route;
     if(tree.up !=null){
+      route = memo;
+      route += "+";
       mappingDataTreeUp(route,count,tree.up);
-      mappingDataTree(route + "1",count + 1, tree.up);
+      mappingDataTree(route,count + 1, tree.up);
     }
     if(tree.down !=null){
+      route = memo;
+      route += "-";
       mappingDataTreeDown(route,count,tree.down);
-      mappingDataTree(route + "0",count + 1, tree.down);
+      mappingDataTree(route,count + 1, tree.down);
     }
   }
 
   void mappingDataTreeUp(String route, int count, BinaryTreeNode tree){
     if(!tree.data.equals("")){
       map += "\n";
-      for(int i = 0;i< count;i++){
-        map += "  ";
-      }
-      map += "- " + tree.data;
+      map += route + tree.data;
     }
   }
 
   void mappingDataTreeDown(String route, int count, BinaryTreeNode tree){
     if(!tree.data.equals("")){
       map += "\n";
-      for(int i = 0; i < count; i++){
-        map += "  ";
-      }
-      map += "\\ " + tree.data;
+      map += route + tree.data;
     }
   }
+//------------------------------------[load]----------------------------------------------
+  void loadData(){
+    try{
+      BufferedReader br;
+      FileReader fr;
+      BufferedReader input;
+      input = new BufferedReader (new InputStreamReader (System.in));
+      System.out.println("読込むファイルを指定して下さい");
+      String fileName = input.readLine( );
+      fr = new FileReader(fileName);
+      br = new BufferedReader(fr);
+      String str;
+      int beforeLength = -1;
+      int length;
+      BinaryTreeNode pareTree;
+      BinaryTreeNode tree = new BinaryTreeNode("", null, null);
+      BinaryTreeNode origin = new BinaryTreeNode(root.data, null, null);
+      String state = "root";
+      while (br.ready()) {
+        str = br.readLine();
+        String[] strAry = str.split("");
+        length = strAry.length - 1;
+        pareTree = origin;
+        for(int i = 0; i <= length; i++){
+          tree = new BinaryTreeNode("", null, null);
+          if(strAry[i].equals("+")){
+            if(pareTree.up == null){
+              pareTree.up = tree;
+            }else{
+              pareTree = pareTree.up;
+            }
+            state = "up";
+          }else if(strAry[i].equals("-")){
+            if(pareTree.down == null){
+              pareTree.down = tree;
+            }else{
+              pareTree = pareTree.down;
+            }
+            state = "down";
+          }else{
+
+            str = "";
+            for(int j = i; j <= length; j++){
+              str += strAry[j];
+            }
+            if(state.equals("root")){
+              pareTree.data = str;
+              break;
+            }else if(state.equals("up")){
+              pareTree.up.data = str;
+              break;
+            }else if(state.equals("down")){
+              pareTree.down.data = str;
+              break;
+            }
+          }
+        }
+        state = "";
+      }
+      root = origin;
+      fr.close();
+      System.out.println("ファイルを読込みました");
+    }catch(IOException e){
+      e.printStackTrace();
+    }
+  }
+
 //------------------------------------[main]----------------------------------------------
 
   public static void main(String args[]) {
@@ -461,6 +527,7 @@ class BinaryTree {
     System.out.println("cp     : そのノード以下のブランチをコピー");
     System.out.println("del    : そのノード以下のブランチを削除");
     System.out.println("save   : プログラムをファイルに書き出し");
+    System.out.println("load   : プログラムからバイナリツリーを読み込み");
     System.out.println("end    : プログラムを終了");
     System.out.println("※add画面で値を入力せずにEnterを押すと、ブランチはそこでとまります。");
     System.out.println("-------------------------------------------------------------------");
@@ -468,7 +535,7 @@ class BinaryTree {
     while(isContinue){
       try{
         BufferedReader input;
-        System.out.println("option(add/ADD/rename/show/cp/del/save/end)");
+        System.out.println("option(add/ADD/rename/show/cp/del/save/load/end)");
         input = new BufferedReader (new InputStreamReader (System.in));
         value = input.readLine( );
         if(value.equals("end")){
@@ -507,6 +574,10 @@ class BinaryTree {
           System.out.println(tree.showPlaneTree());
           System.out.println("-------------------------------------------------------------------");
           tree.saveData();
+        }else if(value.equals("load")){
+          System.out.println("-------------------------------------------------------------------");
+          tree.loadData();
+          System.out.println("-------------------------------------------------------------------");
         }
       }catch(IOException e){
         e.printStackTrace();
